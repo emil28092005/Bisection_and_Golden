@@ -45,3 +45,39 @@ def golden_section_search(a, b, eps):
             fc = fd
             d = b - resphi * (b - a)
             fd = f_golden(d)
+    
+    x_min = (a + b) / 2.0
+    f_min = f_golden(x_min)
+    return x_min, f_min
+
+def f_gradient(x):
+    return -x**2 + 4*x + 1
+
+def f_prime(x):
+    return -2*x + 4
+
+def gradient_ascent(x0, alpha, N):
+    x = x0
+    for _ in range(N):
+        x = x + alpha * f_prime(x)
+    return x, f_gradient(x)
+
+if __name__ == "__main__":
+    a, b = 1, 2
+    eps = 1e-6
+    root = bisection_method(a, b, eps)
+    print("Task 1: Bisection Method")
+    print(f"Approximate root: {root}, f(root) = {f_bisection(root)}")
+
+    a_g, b_g = 0, 5
+    eps_g = 1e-4
+    x_min, f_min = golden_section_search(a_g, b_g, eps_g)
+    print("\nTask 2: Golden Section Search")
+    print(f"Approximate x_min: {x_min}, f(x_min) = {f_min}")
+
+    x0 = 0
+    alpha = 0.1
+    N = 100
+    x_max, f_max = gradient_ascent(x0, alpha, N)
+    print("\nTask 3: Gradient Ascent Method")
+    print(f"Approximate x_max: {x_max}, f(x_max) = {f_max}")
